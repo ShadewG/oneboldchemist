@@ -41,7 +41,7 @@ ensureDirectories();
 
 app.post('/api/generate-image', async (req, res) => {
   try {
-    const { prompt, apiKey, imageId, count = 1, size = "1024x1024", quality = "standard" } = req.body;
+    const { prompt, apiKey, imageId, count = 1, size = "1024x1024", quality = "medium" } = req.body;
     
     if (!apiKey) {
       return res.status(400).json({ error: 'API key is required' });
@@ -97,7 +97,7 @@ app.post('/api/modify-image', async (req, res) => {
       model: "gpt-image-1",
       prompt: modifiedPrompt,
       size: "1024x1024",
-      quality: "standard",
+      quality: "medium",
       n: 1,
     });
     

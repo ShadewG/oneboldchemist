@@ -68,8 +68,10 @@ function setupAdvancedOptions() {
                 <div class="option-group">
                     <label for="imageQuality">Quality</label>
                     <select id="imageQuality" class="option-select">
-                        <option value="standard">Standard</option>
-                        <option value="hd">HD</option>
+                        <option value="low">Low</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="high">High</option>
+                        <option value="auto">Auto</option>
                     </select>
                 </div>
             </div>
@@ -363,7 +365,7 @@ style.textContent = `
     }
     
     .options-details {
-        background: var(--secondary-color);
+        background: var(--bg-primary);
         border-radius: 0.5rem;
         padding: 0.75rem;
     }
@@ -398,6 +400,8 @@ style.textContent = `
         border: 1px solid var(--border-color);
         border-radius: 0.375rem;
         font-size: 0.875rem;
+        background: var(--bg-primary);
+        color: var(--text-primary);
     }
     
     .multiple-images-grid {
