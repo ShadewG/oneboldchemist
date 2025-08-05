@@ -57,16 +57,18 @@ app.post('/api/generate-image', async (req, res) => {
       n: Math.min(count, 10),
     });
     
+    console.log('OpenAI response:', JSON.stringify(response, null, 2));
+    
     const images = response.data.map((item, index) => {
       const imageId = uuidv4();
       const imageData = {
         id: imageId,
-        url: item.url,
+        url: item.url || item.b64_json,
         prompt: prompt,
         timestamp: new Date().toISOString(),
         history: [{
           prompt: prompt,
-          url: item.url,
+          url: item.url || item.b64_json,
           timestamp: new Date().toISOString()
         }]
       };
@@ -101,7 +103,8 @@ app.post('/api/modify-image', async (req, res) => {
       n: 1,
     });
     
-    const imageUrl = response.data[0].url;
+    console.log('Modify response:', JSON.stringify(response, null, 2));
+    const imageUrl = response.data[0].url || response.data[0].b64_json;
     
     const imageIndex = imageLibrary.findIndex(img => img.id === imageId);
     if (imageIndex >= 0) {
