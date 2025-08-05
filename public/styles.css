@@ -377,6 +377,65 @@ body {
     opacity: 1;
 }
 
+/* Image controls */
+.image-controls {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.download-btn {
+    background: #4a5568;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.download-btn:hover {
+    background: #2d3748;
+}
+
+/* Image overlay for grid items */
+.grid-image-item {
+    position: relative;
+}
+
+.grid-image-item .image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.grid-image-item:hover .image-overlay {
+    opacity: 1;
+}
+
+.overlay-btn {
+    background: #4a5568;
+    color: white;
+    border: none;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.overlay-btn:hover {
+    background: #2d3748;
+}
+
 @media (max-width: 1024px) {
     .main-content {
         grid-template-columns: 1fr;

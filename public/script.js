@@ -156,7 +156,26 @@ function displayImage(imageData) {
     
     generatedImage.src = imageData.url;
     generatedImage.style.display = 'block';
+    generatedImage.style.cursor = 'pointer';
+    generatedImage.onclick = () => window.open(imageData.url, '_blank');
+    generatedImage.title = 'Click to open in new tab';
+    
     imageDisplay.querySelector('.placeholder').style.display = 'none';
+    
+    // Add download button
+    const existingControls = imageDisplay.querySelector('.image-controls');
+    if (existingControls) {
+        existingControls.remove();
+    }
+    
+    const controls = document.createElement('div');
+    controls.className = 'image-controls';
+    controls.innerHTML = `
+        <button onclick="downloadImage('${imageData.url}', '${imageData.id}')" class="download-btn">
+            Download Image
+        </button>
+    `;
+    imageDisplay.appendChild(controls);
 }
 
 function displayMultipleImages(images) {
@@ -164,8 +183,12 @@ function displayMultipleImages(images) {
     imageDisplay.innerHTML = `
         <div class="multiple-images-grid">
             ${images.map(img => `
-                <div class="grid-image-item" onclick="selectImage('${img.id}')">
+                <div class="grid-image-item" onclick="selectImage('${img.id}')" title="Click to select">
                     <img src="${img.url}" alt="${img.prompt}">
+                    <div class="image-overlay">
+                        <button onclick="event.stopPropagation(); window.open('${img.url}', '_blank')" class="overlay-btn">Open</button>
+                        <button onclick="event.stopPropagation(); downloadImage('${img.url}', '${img.id}')" class="overlay-btn">Download</button>
+                    </div>
                 </div>
             `).join('')}
         </div>
@@ -306,6 +329,39 @@ window.deleteImage = async function(event, imageId) {
         }
     } catch (error) {
         showMessage(`Error deleting image: ${error.message}`, 'error');
+    }
+};
+
+window.downloadImage = async function(url, imageId) {
+    try {
+        // For data URLs, we can download directly
+        if (url.startsWith('data:')) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `generated-image-${imageId}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showMessage('Image downloaded successfully', 'success');
+            return;
+        }
+        
+        // For external URLs, we need to fetch and convert to blob
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = `generated-image-${imageId}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(blobUrl);
+        
+        showMessage('Image downloaded successfully', 'success');
+    } catch (error) {
+        showMessage(`Error downloading image: ${error.message}`, 'error');
     }
 };
 

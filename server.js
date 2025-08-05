@@ -61,14 +61,21 @@ app.post('/api/generate-image', async (req, res) => {
     
     const images = response.data.map((item, index) => {
       const imageId = uuidv4();
+      // Handle both URL and base64 responses
+      let imageUrl = item.url;
+      if (!imageUrl && item.b64_json) {
+        // Convert base64 to data URL
+        imageUrl = `data:image/png;base64,${item.b64_json}`;
+      }
+      
       const imageData = {
         id: imageId,
-        url: item.url || item.b64_json,
+        url: imageUrl,
         prompt: prompt,
         timestamp: new Date().toISOString(),
         history: [{
           prompt: prompt,
-          url: item.url || item.b64_json,
+          url: imageUrl,
           timestamp: new Date().toISOString()
         }]
       };
@@ -104,7 +111,11 @@ app.post('/api/modify-image', async (req, res) => {
     });
     
     console.log('Modify response:', JSON.stringify(response, null, 2));
-    const imageUrl = response.data[0].url || response.data[0].b64_json;
+    // Handle both URL and base64 responses
+    let imageUrl = response.data[0].url;
+    if (!imageUrl && response.data[0].b64_json) {
+      imageUrl = `data:image/png;base64,${response.data[0].b64_json}`;
+    }
     
     const imageIndex = imageLibrary.findIndex(img => img.id === imageId);
     if (imageIndex >= 0) {
