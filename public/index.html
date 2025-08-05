@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Generation Studio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <h1 class="app-title">AI Image Generation Studio</h1>
+            <div class="api-key-container">
+                <input type="password" id="apiKey" placeholder="Enter your OpenAI API Key" class="api-key-input">
+                <button id="saveApiKey" class="save-btn">Save Key</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="generation-section">
+                <div class="prompt-container">
+                    <textarea id="prompt" placeholder="Describe the image you want to create..." class="prompt-input"></textarea>
+                    <button id="generateBtn" class="generate-btn">Generate Image</button>
+                </div>
+
+                <div class="current-image-container">
+                    <div id="imageDisplay" class="image-display">
+                        <div class="placeholder">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                            <p>Your generated image will appear here</p>
+                        </div>
+                        <img id="generatedImage" class="generated-image" style="display: none;">
+                        <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                            <div class="spinner"></div>
+                            <p>Generating your image...</p>
+                        </div>
+                    </div>
+
+                    <div id="modificationSection" class="modification-section" style="display: none;">
+                        <h3>Modify Your Image</h3>
+                        <div class="chat-container">
+                            <div id="chatHistory" class="chat-history"></div>
+                            <div class="chat-input-container">
+                                <input type="text" id="modificationInput" placeholder="How would you like to modify this image?" class="modification-input">
+                                <button id="modifyBtn" class="modify-btn">Modify</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="library-section">
+                <div class="library-header">
+                    <h2>Image Library</h2>
+                    <button id="refreshLibrary" class="refresh-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <polyline points="1 20 1 14 7 14"></polyline>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div id="imageLibrary" class="image-library"></div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
